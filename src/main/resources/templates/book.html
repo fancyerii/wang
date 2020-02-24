@@ -1,0 +1,27 @@
+<html>
+<head>
+<title th:text="${bookName}"></title>
+<style>
+.article {
+	padding: 5px 10px;
+	width: 16vw;
+	display: inline-block;
+}
+</style>
+
+
+</head>
+<body>
+<h1 th:utext="${bookName}"></h1>
+
+
+<div>
+
+	<a th:each="item,iterStat : ${articles}" target='_blank' class='article' th:href='@{~/article(book=${bookId}, article=${item.articleId}, p=1)}' th:utext="${item.articleId}+'. '+${item.articleName}"></a>
+
+</div>
+       		  
+
+
+</body>
+</html>

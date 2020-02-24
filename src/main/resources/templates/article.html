@@ -1,0 +1,129 @@
+<html>
+<head>
+<title th:text="${title}+'-'+${curPage}"></title>
+<style>
+.not-active {
+	  pointer-events: none;
+	  cursor: default;
+	  text-decoration: none;
+	  color: black;
+}
+.left {
+	float:left;
+	width:50%
+}
+.right {
+	float:left;
+	width:50%
+}
+#pagination{
+	clear:left;
+	padding-bottom: 50px;
+}
+
+span.hl{
+	color:red;
+}
+
+#pagination a{
+	padding:0 10px;
+}
+h1 {
+    text-align:center;
+}
+img{
+	max-width:100%;
+}
+.line{
+	font-size: 1.8vw; 
+	padding:0;
+	margin:0.5vw;
+}
+
+#pagination{
+	text-align:center;
+	font-size: large;
+}
+</style>
+
+<script src="/js/jquery-3.4.0.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("p").dblclick(function(){
+	if(disableModify){
+		return;
+	}  
+	if(isSearch){
+		alert("搜索结果不能修改");
+		return;
+	}
+    var txt=$(this).text();
+    var name=$(this).attr('name');
+    var newTxt = prompt("请输入修改后的内容", txt);
+    if(newTxt == null){
+    	
+    }else{
+    	postData={"old": txt, "new": newTxt, "name":name, "p":pageId,"bookId":bookId, "articleId":articleId};
+    	$.ajax({
+    	    type: "POST",
+    	    url: "/ajax/updateLine",
+    	    data: JSON.stringify(postData),
+    	    contentType: "application/json; charset=utf-8",
+    	    dataType: "json",
+    	    success: function(data){
+				if(data.succ){
+					if(data.update){
+						location.reload();
+					}
+				}else{
+					alert("failed");
+				}
+    	    },
+    	    failure: function(errMsg) {
+    	        alert(errMsg);
+    	    }
+    	});
+    }
+  });
+});
+</script>
+
+</head>
+<body>
+<h1 th:utext="${title}"></h1>
+<div id="pagination">
+    <a th:each="pageNumber : ${pageNumbers}" th:href="@{''(book=${bookId}, article=${articleId}, p=${pageNumber}, kw=${kw})}"
+        th:text="${pageNumber} +' '"
+        th:class="${curPage==pageNumber} ? not-active"></a>
+</div>
+
+<div id="container">
+	<div class='left'>
+        <p class='line' th:each="line,iterStat : ${bp.lines}" th:utext="${line.text}" th:name="${iterStat.index}">
+		</p>
+	</div>
+	<div class='right'>
+		<img th:src="@{~/imgs/{bookId}/{imgId}.png(bookId=${bookId}, imgId=${imgId})}"/>
+	</div>	
+</div>
+
+<div id="pagination">
+    <a th:each="pageNumber : ${pageNumbers}" th:href="@{''(book=${bookId}, article=${articleId}, p=${pageNumber}, kw=${kw})}"
+        th:text="${pageNumber} +' '"
+        th:class="${curPage==pageNumber} ? not-active"></a>
+</div>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+    var bookId = /*[[${bookId}]]*/ 'bookId';
+    var articleId = /*[[${articleId}]]*/ 'articleId';
+    var pageId = /*[[${curPage}]]*/ 'curPage';
+    var isSearch = /*[[${isSearch}]]*/ 'isSearch';
+    var disableModify = /*[[${disableModify}]]*/ 'disableModify';
+    
+/*]]>*/
+</script>
+
+</body>
+</html>

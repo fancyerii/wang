@@ -1,0 +1,65 @@
+<html>
+<head>
+<title th:text="'搜索--'+${q}"></title>
+<style>
+.not-active {
+	  pointer-events: none;
+	  cursor: default;
+	  text-decoration: none;
+	  color: black;
+}
+span.hl{
+	color:red;
+}
+.hlline{
+	font-size:1.2em;
+}
+.item{
+	padding: 10px 0;
+}
+.item > p{
+	font-size: 1.5em;
+}
+.pagination{
+	text-align:center;
+	font-size: large;
+	padding-bottom: 50px;
+}
+.pagination a{
+	padding:0 10px;
+}
+</style>
+</style>
+</head>
+<body>
+<form>
+q: <input th:value="${q}"  type="text" name="q" /> 
+<input type="submit" name="submit" value="搜索" />
+</form>
+
+<div class='content'>
+       <div class='item' th:each="item,iterStat : ${items}" th:name="${iterStat.index}">
+       		<p>
+       		  
+       		  <a target='_blank' class='title' th:href='@{~/article(book=${item.bookId}, article=${item.articleId}, p=1, kw=${q})}' th:utext='${item.title}'></a>
+       		   
+			</p>
+			<div class='hlContent'>
+				
+				<a target='_blank' class='title' th:href='@{~/article(book=${item.bookId}, article=${item.articleId}, p=${item.page}, kw=${q})}' >
+					<div th:utext="${item.highlight}"></div>
+				</a>
+			
+			</div>
+		</div>
+</div>
+
+
+<div th:if="${totalPage > 0}" class="pagination">
+
+    <a th:each="pageNumber : ${pageNumbers}" th:href="@{''(page=${pageNumber}, q=${q})}"
+        th:text="${pageNumber} +'  '"
+        th:class="${curPage==pageNumber} ? not-active"></a>
+</div>
+</body>
+</html>
