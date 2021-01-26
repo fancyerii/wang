@@ -38,7 +38,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
-import com.github.fancyerii.tool.Seg;
+import com.github.fancyerii.wang.tool.Seg;
 import com.github.fancyerii.wang.index.IndexConstants;
 import com.github.fancyerii.wang.process.Article;
 import com.github.fancyerii.wang.process.BookLine;

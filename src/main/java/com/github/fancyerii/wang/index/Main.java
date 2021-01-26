@@ -21,7 +21,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 
-import com.github.fancyerii.tool.Seg;
+import com.github.fancyerii.wang.tool.Seg;
 import com.github.fancyerii.wang.process.Article;
 import com.github.fancyerii.wang.process.BookLine;
 import com.github.fancyerii.wang.process.BookPage;
